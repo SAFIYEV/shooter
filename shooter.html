@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Шутер от первого лица (Мобильный)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        #menu, #tasks, #shop { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.8); color: white; font-family: Arial; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        }
+        #menu button, #tasks button, #shop button { 
+            padding: 15px; margin: 10px; font-size: 20px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer; 
+        }
+        #tasks div, #shop div { 
+            max-height: 80%; overflow-y: auto; width: 80%; text-align: left; 
+        }
+        #score { position: absolute; top: 10px; left: 10px; color: white; font-size: 18px; }
+        #health { position: absolute; top: 30px; left: 10px; color: white; font-size: 18px; }
+        #crosshair { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 20px; }
+        #shootBtn { 
+            position: absolute; bottom: 20px; right: 20px; width: 60px; height: 60px; 
+            background: #ff0000; border-radius: 50%; border: none; color: white; font-size: 18px; 
+        }
+        #gameOver { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.9); color: white; font-family: Arial; 
+            display: none; flex-direction: column; align-items: center; justify-content: center; 
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <h1>Шутер от первого лица</h1>
+        <button onclick="startGame('day')">Играть (День)</button>
+        <button onclick="startGame('night')">Играть (Ночь)</button>
+        <button onclick="showTasks()">Задания</button>
+        <button onclick="showShop()">Магазин</button>
+    </div>
+    <div id="tasks" style="display: none;">
+        <h1>Задания</h1>
+        <div>
+            <p>1. Убить 10 врагов (Награда: 50 очков)</p>
+            <p>2. Набрать 100 очков (Награда: 100 очков)</p>
+            <p>3. Выжить 1 минуту (Награда: 200 очков)</p>
+            <p>4. Убить 5 врагов за 30 секунд (Награда: 150 очков)</p>
+            <p>5. Достигнуть 500 очков (Награда: 300 очков)</p>
+            <p>6. Убить 20 врагов (Награда: 100 очков)</p>
+            <p>7. Выжить без урона 30 секунд (Награда: 200 очков)</p>
+            <p>8. Убить врага с 20 метров (Награда: 150 очков)</p>
+            <p>9. Набрать 1000 очков (Награда: 500 очков)</p>
+            <p>10. Убить 3 врагов подряд (Награда: 100 очков)</p>
+            <p>11. Выжить 2 минуты (Награда: 400 очков)</p>
+            <p>12. Убить 50 врагов (Награда: 300 очков)</p>
+            <p>13. Набрать 200 очков за 1 минуту (Награда: 250 очков)</p>
+            <p>14. Убить 10 врагов без урона (Награда: 200 очков)</p>
+            <p>15. Достигнуть 2000 очков (Награда: 1000 очков)</p>
+            <p>16. Убить врага с 30 метров (Награда: 200 очков)</p>
+            <p>17. Выжить 3 минуты (Награда: 600 очков)</p>
+            <p>18. Убить 5 врагов за 20 секунд (Награда: 200 очков)</p>
+            <p>19. Набрать 500 очков без урона (Награда: 400 очков)</p>
+            <p>20. Убить 100 врагов (Награда: 1000 очков)</p>
+        </div>
+        <button onclick="showMenu()">Назад</button>
+    </div>
+    <div id="shop" style="display: none;">
+        <h1>Магазин</h1>
+        <div>
+            <p>Дополнительное здоровье (+50 HP) - 100 очков <button onclick="buyHealth()">Купить</button></p>
+            <p>Регенерация здоровья (+1 HP/сек) - 200 очков <button onclick="buyRegen()">Купить</button></p>
+            <p>Увеличенный урон (+50%) - 150 очков <button onclick="buyDamage()">Купить</button></p>
+        </div>
+        <button onclick="showMenu()">Назад</button>
+    </div>
+    <div id="score" style="display: none;">Очки: 0</div>
+    <div id="health" style="display: none;">Здоровье: 100</div>
+    <div id="crosshair" style="display: none;">+</div>
+    <button id="shootBtn" style="display: none;">Стрелять</button>
+    <div id="gameOver" style="display: none;">
+        <h1>Игра окончена</h1>
+        <button onclick="showMenu()">Вернуться в меню</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.10.0/dist/nipplejs.min.js"></script>
+    <script>
+        // Сцена, камера, рендер
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Пол
+        const groundGeometry = new THREE.PlaneGeometry(100, 100);
+        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2;
+        scene.add(ground);
+
+        // Освещение
+        let ambientLight, spotLight;
+        function setTimeOfDay(time) {
+            if (time === 'day') {
+                ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+                scene.add(ambientLight);
+            } else {
+                ambientLight = new THREE.AmbientLight(0x222222, 0.2);
+                spotLight = new THREE.SpotLight(0xffffff, 0.5);
+                spotLight.position.set(0, 1.6, 0);
+                spotLight.angle = Math.PI / 6;
+                spotLight.penumbra = 0.5;
+                spotLight.distance = 20;
+                scene.add(ambientLight, spotLight);
+            }
+        }
+
+        // Оружие (два прямоугольника)
+        const weaponGeometry = new THREE.BoxGeometry(0.2, 0.1, 0.5);
+        const weaponMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const weaponLeft = new THREE.Mesh(weaponGeometry, weaponMaterial);
+        const weaponRight = new THREE.Mesh(weaponGeometry, weaponMaterial);
+        weaponLeft.position.set(-0.3, -0.3, -0.5);
+        weaponRight.position.set(0.3, -0.3, -0.5);
+        camera.add(weaponLeft, weaponRight);
+        scene.add(camera);
+
+        // Игрок
+        camera.position.y = 1.6;
+        let moveSpeed = 0.1;
+        let yaw = 0;
+        let health = 100;
+        let regenRate = 0;
+        let damageMultiplier = 1;
+        let score = 0;
+
+        // Джойстики
+        let moveJoystick, lookJoystick;
+        function setupJoysticks() {
+            moveJoystick = nipplejs.create({
+                zone: document.body,
+                position: { left: '20%', bottom: '20%' },
+                mode: 'static',
+                size: 100,
+                color: 'white'
+            });
+            lookJoystick = nipplejs.create({
+                zone: document.body,
+                position: { right: '20%', bottom: '20%' },
+                mode: 'static',
+                size: 100,
+                color: 'white'
+            });
+            moveJoystick.on('move', (evt, data) => {
+                const direction = new THREE.Vector3();
+                camera.getWorldDirection(direction);
+                direction.y = 0;
+                direction.normalize();
+                const angle = data.angle.radian;
+                const force = data.force;
+                const move = direction.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), angle).multiplyScalar(force * moveSpeed);
+                camera.position.add(move);
+            });
+            lookJoystick.on('move', (evt, data) => {
+                yaw -= data.angle.radian * 0.05;
+                camera.rotation.set(0, yaw, 0);
+            });
+        }
+
+        // Враги
+        const enemies = [];
+        function spawnEnemy() {
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const enemy = new THREE.Mesh(geometry, material);
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 20;
+            enemy.position.set(Math.cos(angle) * distance, 0.5, Math.sin(angle) * distance);
+            scene.add(enemy);
+            enemies.push(enemy);
+        }
+
+        // Пули
+        const bullets = [];
+        function shoot() {
+            const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+            const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+            const bullet = new THREE.Mesh(geometry, material);
+            bullet.position.copy(camera.position);
+            const direction = new THREE.Vector3();
+            camera.getWorldDirection(direction);
+            bullet.velocity = direction.multiplyScalar(0.5);
+            scene.add(bullet);
+            bullets.push(bullet);
+        }
+
+        document.getElementById('shootBtn').addEventListener('touchstart', shoot);
+
+        // UI элементы
+        const scoreElement = document.getElementById('score');
+        const healthElement = document.getElementById('health');
+        const gameOverElement = document.getElementById('gameOver');
+
+        // Меню
+        function showMenu() {
+            document.getElementById('menu').style.display = 'flex';
+            document.getElementById('tasks').style.display = 'none';
+            document.getElementById('shop').style.display = 'none';
+            document.getElementById('score').style.display = 'none';
+            document.getElementById('health').style.display = 'none';
+            document.getElementById('crosshair').style.display = 'none';
+            document.getElementById('shootBtn').style.display = 'none';
+            if (moveJoystick) moveJoystick.destroy();
+            if (lookJoystick) lookJoystick.destroy();
+            enemies.forEach(enemy => scene.remove(enemy));
+            enemies.length = 0;
+            bullets.forEach(bullet => scene.remove(bullet));
+            bullets.length = 0;
+        }
+
+        function showTasks() {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('tasks').style.display = 'flex';
+        }
+
+        function showShop() {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('shop').style.display = 'flex';
+        }
+
+        function startGame(time) {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('score').style.display = 'block';
+            document.getElementById('health').style.display = 'block';
+            document.getElementById('crosshair').style.display = 'block';
+            document.getElementById('shootBtn').style.display = 'block';
+            gameOverElement.style.display = 'none';
+            health = 100;
+            score = 0;
+            scoreElement.textContent = `Очки: ${score}`;
+            healthElement.textContent = `Здоровье: ${health}`;
+            setTimeOfDay(time);
+            setupJoysticks();
+            setInterval(spawnEnemy, 2000);
+            animate();
+        }
+
+        // Магазин
+        function buyHealth() {
+            if (score >= 100) {
+                score -= 100;
+                health += 50;
+                scoreElement.textContent = `Очки: ${score}`;
+                healthElement.textContent = `Здоровье: ${health}`;
+            }
+        }
+
+        function buyRegen() {
+            if (score >= 200) {
+                score -= 200;
+                regenRate = 1;
+                scoreElement.textContent = `Очки: ${score}`;
+            }
+        }
+
+        function buyDamage() {
+            if (score >= 150) {
+                score -= 150;
+                damageMultiplier = 1.5;
+                scoreElement.textContent = `Очки: ${score}`;
+            }
+        }
+
+        // Анимация
+        function animate() {
+            if (health <= 0) {
+                gameOverElement.style.display = 'flex';
+                return;
+            }
+            requestAnimationFrame(animate);
+
+            // Обновление врагов
+            enemies.forEach((enemy, index) => {
+                const direction = camera.position.clone().sub(enemy.position).normalize();
+                enemy.position.add(direction.multiplyScalar(0.05));
+                if (enemy.position.distanceTo(camera.position) < 1) {
+                    scene.remove(enemy);
+                    enemies.splice(index, 1);
+                    health -= 5;
+                    healthElement.textContent = `Здоровье: ${health}`;
+                }
+            });
+
+            // Обновление пуль
+            bullets.forEach((bullet, bIndex) => {
+                bullet.position.add(bullet.velocity);
+                enemies.forEach((enemy, eIndex) => {
+                    if (bullet.position.distanceTo(enemy.position) < 1) {
+                        scene.remove(enemy);
+                        enemies.splice(eIndex, 1);
+                        scene.remove(bullet);
+                        bullets.splice(bIndex, 1);
+                        score += 10 * damageMultiplier;
+                        scoreElement.textContent = `Очки: ${score}`;
+                    }
+                });
+                if (bullet.position.distanceTo(camera.position) > 50) {
+                    scene.remove(bullet);
+                    bullets.splice(bIndex, 1);
+                }
+            });
+
+            // Регенерация здоровья
+            if (regenRate > 0) {
+                health = Math.min(health + regenRate / 60, 100 + (regenRate > 0 ? 50 : 0));
+                healthElement.textContent = `Здоровье: ${health}`;
+            }
+
+            // Обновление фонарика для ночи
+            if (spotLight) {
+                spotLight.position.copy(camera.position);
+                spotLight.target.position.copy(camera.position).add(camera.getWorldDirection(new THREE.Vector3()));
+                spotLight.target.updateMatrixWorld();
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Адаптация размера
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+    </script>
+</body>
+</html>
