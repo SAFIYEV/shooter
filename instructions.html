@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Инструкция - Zombie Shooter 3D</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            background-color: #f0f0f0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+                padding: 5px;
+            }
+        }
+        
+        h1 {
+            font-size: 1.8em;
+            margin: 15px 0;
+            color: #333;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 1.4em;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .section {
+            background-color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .control-item {
+            flex: 1;
+        }
+        
+        .tip {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-left: 4px solid #4caf50;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .social-link i {
+            margin-right: 10px;
+        }
+
+        .social-link:hover {
+            background: #006699;
+        }
+
+        .youtube-link {
+            background: #ff0000;
+        }
+
+        .youtube-link:hover {
+            background: #cc0000;
+        }
+
+        .community-link {
+            background: #27ae60;
+        }
+
+        .community-link:hover {
+            background: #219a52;
+        }
+
+        .mission-reward {
+            color: #e67e22;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Инструкция по игре Zombie Shooter 3D</h1>
+
+    <div class="section">
+        <h2>Управление</h2>
+        <div class="controls">
+            <div class="control-item">
+                <h3>Передвижение</h3>
+                <p>Используйте виртуальный джойстик в левой части экрана для передвижения:</p>
+                <ul>
+                    <li>Вверх - движение вперед</li>
+                    <li>Вниз - движение назад</li>
+                    <li>Влево - движение влево</li>
+                    <li>Вправо - движение вправо</li>
+                </ul>
+            </div>
+            <div class="control-item">
+                <h3>Обзор</h3>
+                <p>Проведите пальцем по экрану (вне области джойстика) для поворота камеры.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Стрельба и перезарядка</h2>
+        <ul>
+            <li>Кнопка "ОГОНЬ" - стрельба по зомби</li>
+            <li>Кнопка "ПЕРЕЗАРЯДКА" - перезарядка оружия (30 патронов)</li>
+        </ul>
+        <div class="tip">
+            <strong>Совет:</strong> Следите за количеством патронов и вовремя перезаряжайтесь!
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Наши социальные сети</h2>
+        <p>Подпишитесь на наши каналы и получите награды!</p>
+        <div class="social-links">
+            <a href="https://youtube.com/@onecodetv2270?si=D-4LdIKOoVsSOjea" target="_blank" class="social-link youtube-link">
+                <i class="fab fa-youtube"></i> OneCode TV - 2000 очков
+            </a>
+            <a href="https://t.me/it2009" target="_blank" class="social-link">
+                <i class="fab fa-telegram"></i> SADLAHAY_CODE - 1000 очков
+            </a>
+            <a href="https://t.me/Safiyev_Marat" target="_blank" class="social-link">
+                <i class="fab fa-telegram"></i> Сафиев Марат - 1000 очков
+            </a>
+            <a href="https://t.me/itworld2022" target="_blank" class="social-link">
+                <i class="fab fa-telegram"></i> CryptoWorld - 1000 очков
+            </a>
+            <a href="https://t.me/onecoinholders" target="_blank" class="social-link community-link">
+                <i class="fab fa-telegram"></i> ONECOIN комьюнити - 2000 очков + шанс выиграть токены
+            </a>
+        </div>
+        <div class="tip">
+            <strong>Бонус:</strong> Участвуйте в еженедельных раздачах токенов в нашем комьюнити!
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Задания</h2>
+        <ul>
+            <li>Убить 10 зомби <span class="mission-reward">(500 очков)</span></li>
+            <li>Набрать 1000 очков <span class="mission-reward">(1000 очков)</span></li>
+            <li>Выжить 5 минут <span class="mission-reward">(2000 очков)</span></li>
+            <li>Убить 50 зомби <span class="mission-reward">(2500 очков)</span></li>
+            <li>Убить 100 зомби <span class="mission-reward">(5000 очков)</span></li>
+            <li>Набрать 5000 очков <span class="mission-reward">(3000 очков)</span></li>
+            <li>Выжить 10 минут <span class="mission-reward">(4000 очков)</span></li>
+            <li>Убить 10 зомби без перезарядки <span class="mission-reward">(1500 очков)</span></li>
+            <li>Убить 5 зомби за 10 секунд <span class="mission-reward">(2000 очков)</span></li>
+            <li>Пройти 1000 метров <span class="mission-reward">(1000 очков)</span></li>
+            <li>Убить 20 зомби без получения урона <span class="mission-reward">(3000 очков)</span></li>
+            <li>Набрать 10000 очков <span class="mission-reward">(7000 очков)</span></li>
+            <li>Выжить 15 минут <span class="mission-reward">(6000 очков)</span></li>
+            <li>Убить 200 зомби <span class="mission-reward">(8000 очков)</span></li>
+            <li>Достичь 20 уровня <span class="mission-reward">(10000 очков)</span></li>
+            <li>Открыть все улучшения в магазине <span class="mission-reward">(15000 очков)</span></li>
+            <li>Убить 500 зомби <span class="mission-reward">(20000 очков)</span></li>
+            <li>Выжить 30 минут <span class="mission-reward">(12000 очков)</span></li>
+            <li>Набрать 50000 очков <span class="mission-reward">(25000 очков)</span></li>
+            <li>Стать легендой (выполнить все задания) <span class="mission-reward">(50000 очков)</span></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Магазин</h2>
+        <ul>
+            <li>Увеличение здоровья (+20 к максимальному здоровью) - 1000 очков</li>
+            <li>Увеличение урона (+25% к урону) - 2000 очков</li>
+            <li>Двойные патроны (60 патронов в магазине) - 3000 очков</li>
+            <li>Быстрая перезарядка (-50% времени перезарядки) - 2500 очков</li>
+            <li>Регенерация здоровья (+1 здоровья в секунду) - 5000 очков</li>
+            <li>Скоростные ботинки (+30% к скорости) - 4000 очков</li>
+            <li>Бронежилет (-30% получаемого урона) - 6000 очков</li>
+        </ul>
+        <div class="tip">
+            <strong>Совет:</strong> Сначала купите увеличение здоровья и бронежилет для лучшей выживаемости!
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Советы по выживанию</h2>
+        <ul>
+            <li>Держитесь подальше от зомби - они наносят урон при контакте</li>
+            <li>Используйте деревья и камни как укрытия</li>
+            <li>Следите за здоровьем и количеством патронов</li>
+            <li>Старайтесь не оказываться в окружении зомби</li>
+            <li>Используйте спринт для быстрого отступления</li>
+            <li>Концентрируйтесь на ближайших зомби</li>
+        </ul>
+    </div>
+</body>
+</html> 

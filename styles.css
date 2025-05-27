@@ -1,0 +1,323 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+body {
+    overflow: hidden;
+    background: #000;
+    font-family: Arial, sans-serif;
+}
+
+/* Предупреждение об ориентации */
+#orientation-warning {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    text-align: center;
+    z-index: 9999;
+}
+
+@media (orientation: portrait) {
+    #orientation-warning {
+        display: flex;
+    }
+    #game-container {
+        display: none;
+    }
+}
+
+#game-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Мобильные элементы управления */
+#mobile-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    pointer-events: none;
+}
+
+#joystick-area {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    width: 120px;
+    height: 120px;
+    pointer-events: auto;
+}
+
+#joystick {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+#joystick-head {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#action-buttons {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:active {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0.95);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Игровой интерфейс */
+#game-ui {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 18px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+#game-ui div {
+    margin-bottom: 10px;
+}
+
+/* Экраны меню */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    gap: 20px;
+    padding: 20px;
+}
+
+.screen.active {
+    display: flex;
+}
+
+.screen h1, .screen h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.balance {
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+/* Задания */
+.missions-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.mission {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.mission h3 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.progress {
+    margin: 10px 0;
+    font-size: 20px;
+    color: #ffeb3b;
+}
+
+/* Магазин */
+.shop-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.shop-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.shop-item h3 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+/* Кнопки действий */
+#shoot-btn {
+    background: #ff4444;
+    animation: pulse 2s infinite;
+}
+
+#reload-btn {
+    background: #4444ff;
+}
+
+.buy-btn {
+    background: #4CAF50;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Анимации */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+/* Социальные задания */
+.social-mission {
+    background: rgba(0, 132, 255, 0.1);
+    border: 1px solid rgba(0, 132, 255, 0.3);
+}
+
+.social-mission h3 {
+    color: #0084ff;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #0088cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    margin: 10px 0;
+    font-size: 18px;
+    transition: all 0.3s;
+}
+
+.social-link:hover {
+    background: #0099dd;
+    transform: scale(1.05);
+}
+
+.social-link i {
+    font-size: 24px;
+}
+
+.share-btn {
+    background: #0088cc;
+    color: white;
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.share-btn i {
+    font-size: 20px;
+}
+
+.social-claim {
+    background: #4CAF50;
+    color: white;
+    width: 100%;
+}
+
+.social-claim:disabled {
+    background: #45a049;
+    opacity: 0.7;
+} 
