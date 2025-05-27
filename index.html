@@ -5,122 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zombie Shooter 3D</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div id="orientation-warning">
         Пожалуйста, поверните устройство горизонтально
     </div>
-
     <div id="game-container">
         <canvas id="game"></canvas>
-        
-        <!-- Мобильные элементы управления -->
         <div id="mobile-controls">
             <div id="joystick-area">
                 <div id="joystick">
                     <div id="joystick-head"></div>
                 </div>
             </div>
-            
             <div id="action-buttons">
                 <button id="shoot-btn">ОГОНЬ</button>
                 <button id="reload-btn">ПЕРЕЗАРЯДКА</button>
             </div>
         </div>
-
-        <!-- Игровой интерфейс -->
         <div id="game-ui">
-            <div id="ammo">Патроны: <span id="ammo-count">30</span></div>
-            <div id="score">Очки: <span id="score-count">0</span></div>
-            <div id="health">Здоровье: <span id="health-count">100</span></div>
-        </div>
-
-        <!-- Главное меню -->
-        <div id="menu" class="screen">
-            <h1>ZOMBIE SHOOTER 3D</h1>
-            <div class="balance">Баланс: <span id="total-score">0</span> очков</div>
-            <button id="start-btn">НАЧАТЬ ИГРУ</button>
-            <button id="missions-btn">ЗАДАНИЯ</button>
-            <button id="shop-btn">МАГАЗИН</button>
-        </div>
-
-        <!-- Экран заданий -->
-        <div id="missions" class="screen">
-            <h2>ЗАДАНИЯ</h2>
-            <div class="missions-list">
-                <div class="mission" data-id="1">
-                    <h3>Убить 10 зомби</h3>
-                    <p>Награда: 500 очков</p>
-                    <div class="progress">0/10</div>
-                    <button class="claim-btn" disabled>Получить награду</button>
-                </div>
-                <div class="mission" data-id="2">
-                    <h3>Набрать 1000 очков</h3>
-                    <p>Награда: 1000 очков</p>
-                    <div class="progress">0/1000</div>
-                    <button class="claim-btn" disabled>Получить награду</button>
-                </div>
-                <div class="mission" data-id="3">
-                    <h3>Выжить 5 минут</h3>
-                    <p>Награда: 2000 очков</p>
-                    <div class="progress">0:00/5:00</div>
-                    <button class="claim-btn" disabled>Получить награду</button>
-                </div>
-                <div class="mission social-mission" data-id="4">
-                    <h3>Подписаться на TON Baku Hub</h3>
-                    <p>Награда: 1500 очков</p>
-                    <a href="https://t.me/tonbakuhub" target="_blank" class="social-link">
-                        <i class="fab fa-telegram"></i> @tonbakuhub
-                    </a>
-                    <button class="claim-btn social-claim">Подтвердить подписку</button>
-                </div>
-                <div class="mission social-mission" data-id="5">
-                    <h3>Поделиться игрой</h3>
-                    <p>Награда: 1000 очков</p>
-                    <button class="share-btn">
-                        <i class="fas fa-share"></i> Поделиться
-                    </button>
-                    <button class="claim-btn social-claim">Получить награду</button>
-                </div>
-            </div>
-            <button id="missions-back">НАЗАД</button>
-        </div>
-
-        <!-- Экран магазина -->
-        <div id="shop" class="screen">
-            <h2>МАГАЗИН</h2>
-            <div class="shop-items">
-                <div class="shop-item" data-id="1">
-                    <h3>Увеличение здоровья</h3>
-                    <p>+20 к максимальному здоровью</p>
-                    <p>Цена: 1000 очков</p>
-                    <button class="buy-btn">Купить</button>
-                </div>
-                <div class="shop-item" data-id="2">
-                    <h3>Увеличение урона</h3>
-                    <p>+25% к урону</p>
-                    <p>Цена: 2000 очков</p>
-                    <button class="buy-btn">Купить</button>
-                </div>
-            </div>
-            <button id="shop-back">НАЗАД</button>
-        </div>
-
-        <!-- Экран проигрыша -->
-        <div id="game-over" class="screen">
-            <h2>ИГРА ОКОНЧЕНА</h2>
-            <p>Ваш счет: <span id="final-score">0</span></p>
-            <p>Выполненные задания: <span id="completed-missions">0</span></p>
-            <button id="restart-btn">ИГРАТЬ СНОВА</button>
-            <button id="menu-btn">В ГЛАВНОЕ МЕНЮ</button>
+            <div>Патроны: <span id="ammo-count">30</span></div>
+            <div>Очки: <span id="score-count">0</span></div>
+            <div>Здоровье: <span id="health-count">100</span></div>
         </div>
     </div>
-
-    <!-- Three.js и другие зависимости -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="game.js"></script>
+    <div id="menu" class="screen active">
+        <h1>ZOMBIE SHOOTER 3D</h1>
+        <div class="balance">Баланс: <span id="total-score">0</span> очков</div>
+        <button id="start-btn">НАЧАТЬ ИГРУ</button>
+        <button id="missions-btn">ЗАДАНИЯ</button>
+        <button id="shop-btn">МАГАЗИН</button>
+    </div>
+    <div id="missions" class="screen">
+        <h1>ЗАДАНИЯ</h1>
+        <div class="missions-list">
+            <div class="mission" data-id="1">
+                <h3>Убить 10 зомби</h3>
+                <p class="progress">0/10</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="2">
+                <h3>Набрать 1000 очков</h3>
+                <p class="progress">0/1000</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="3">
+                <h3>Выжить 5 минут</h3>
+                <p class="progress">0:00/5:00</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+        </div>
+        <button id="missions-back">НАЗАД</button>
+    </div>
+    <div id="shop" class="screen">
+        <h1>МАГАЗИН</h1>
+        <div class="shop-items">
+            <div class="shop-item" data-id="1">
+                <h3>Увеличение здоровья</h3>
+                <p>+20 к максимальному здоровью</p>
+                <p>Цена: 1000 очков</p>
+                <button class="buy-btn">Купить</button>
+            </div>
+            <div class="shop-item" data-id="2">
+                <h3>Увеличение урона</h3>
+                <p>+25% к урону</p>
+                <p>Цена: 2000 очков</p>
+                <button class="buy-btn">Купить</button>
+            </div>
+        </div>
+        <button id="shop-back">НАЗАД</button>
+    </div>
+    <div id="game-over" class="screen">
+        <h1>ИГРА ОКОНЧЕНА</h1>
+        <div>Ваш счет: <span id="final-score">0</span></div>
+        <div>Выполненные задания: <span id="completed-missions">0</span></div>
+        <button id="play-again-btn">ИГРАТЬ СНОВА</button>
+        <button id="menu-btn">В ГЛАВНОЕ МЕНЮ</button>
+    </div>
+    <audio id="shoot-sound" src="pistolet_zvuk.mp3"></audio>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.158.0/build/three.module.js"
+            }
+        }
+    </script>
+    <script type="module" src="game.js"></script>
 </body>
-</html> 
+</html>
