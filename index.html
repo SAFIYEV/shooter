@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zombie Shooter 3D</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Yandex Games SDK -->
+    <script src="https://sdk.games.s3.yandex.net/sdk.js"></script>
 </head>
 <body>
     <div id="orientation-warning">
@@ -21,6 +23,7 @@
             <div id="action-buttons">
                 <button id="shoot-btn">ОГОНЬ</button>
                 <button id="reload-btn">ПЕРЕЗАРЯДКА</button>
+                <button id="reward-btn">ПОЛУЧИТЬ НАГРАДУ</button>
             </div>
         </div>
         <div id="game-ui">
@@ -35,6 +38,7 @@
         <button id="start-btn">НАЧАТЬ ИГРУ</button>
         <button id="missions-btn">ЗАДАНИЯ</button>
         <button id="shop-btn">МАГАЗИН</button>
+        <button id="leaderboard-btn">ЛИДЕРБОРД</button>
     </div>
     <div id="missions" class="screen">
         <h1>ЗАДАНИЯ</h1>
@@ -52,6 +56,66 @@
             <div class="mission" data-id="3">
                 <h3>Выжить 5 минут</h3>
                 <p class="progress">0:00/5:00</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="4">
+                <h3>Убить 50 зомби</h3>
+                <p class="progress">0/50</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="5">
+                <h3>Набрать 5000 очков</h3>
+                <p class="progress">0/5000</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="6">
+                <h3>Выжить 10 минут</h3>
+                <p class="progress">0:00/10:00</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="7">
+                <h3>Убить 100 зомби</h3>
+                <p class="progress">0/100</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="8">
+                <h3>Набрать 10000 очков</h3>
+                <p class="progress">0/10000</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="9">
+                <h3>Выжить 15 минут</h3>
+                <p class="progress">0:00/15:00</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="10">
+                <h3>Убить 20 зомби без перезарядки</h3>
+                <p class="progress">0/20</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="11">
+                <h3>Убить 5 зомби за 10 секунд</h3>
+                <p class="progress">0/5</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="12">
+                <h3>Пройти 1000 метров</h3>
+                <p class="progress">0/1000</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="13">
+                <h3>Убить 200 зомби</h3>
+                <p class="progress">0/200</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="14">
+                <h3>Набрать 50000 очков</h3>
+                <p class="progress">0/50000</p>
+                <button class="claim-btn" disabled>Получить награду</button>
+            </div>
+            <div class="mission" data-id="15">
+                <h3>Выжить 30 минут</h3>
+                <p class="progress">0:00/30:00</p>
                 <button class="claim-btn" disabled>Получить награду</button>
             </div>
         </div>
@@ -72,8 +136,43 @@
                 <p>Цена: 2000 очков</p>
                 <button class="buy-btn">Купить</button>
             </div>
+            <div class="shop-item" data-id="3">
+                <h3>Двойные патроны</h3>
+                <p>60 патронов в магазине</p>
+                <p>Цена: 3000 очков</p>
+                <button class="buy-btn">Купить</button>
+            </div>
+            <div class="shop-item" data-id="4">
+                <h3>Быстрая перезарядка</h3>
+                <p>-50% времени перезарядки</p>
+                <p>Цена: 2500 очков</p>
+                <button class="buy-btn">Купить</button>
+            </div>
+            <div class="shop-item" data-id="5">
+                <h3>Скоростные ботинки</h3>
+                <p>+30% к скорости</p>
+                <p>Цена: 4000 очков</p>
+                <button class="buy-btn">Купить</button>
+            </div>
+            <div class="shop-item" data-id="6">
+                <h3>Бронежилет</h3>
+                <p>-30% получаемого урона</p>
+                <p>Цена: 6000 очков</p>
+                <button class="buy-btn">Купить</button>
+            </div>
+            <div class="shop-item" data-id="7">
+                <h3>Регенерация здоровья</h3>
+                <p>+1 здоровья в секунду</p>
+                <p>Цена: 5000 очков</p>
+                <button class="buy-btn">Купить</button>
+            </div>
         </div>
         <button id="shop-back">НАЗАД</button>
+    </div>
+    <div id="leaderboard" class="screen">
+        <h1>ЛИДЕРБОРД</h1>
+        <div id="leaderboard-list"></div>
+        <button id="leaderboard-back">НАЗАД</button>
     </div>
     <div id="game-over" class="screen">
         <h1>ИГРА ОКОНЧЕНА</h1>
