@@ -4,36 +4,135 @@
     <title>Шутер от первого лица (Мобильный)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #1a2a1a; /* Темно-зеленый фон для военной темы */
+        }
+        canvas { 
+            display: block; 
+            width: 100vw; 
+            height: 100vh; 
+        }
         #menu, #tasks, #shop { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0, 0, 0, 0.8); color: white; font-family: Arial; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(34, 51, 34, 0.9); /* Темно-зеленый с прозрачностью */
+            color: #c0c0c0; /* Светло-серый текст для контраста */
+            font-family: 'Impact', Arial, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
         }
         #menu button, #tasks button, #shop button { 
-            padding: 15px; margin: 10px; font-size: 20px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer; 
+            padding: 15px 30px; 
+            margin: 10px; 
+            font-size: 24px; 
+            background: linear-gradient(45deg, #3c4f3c, #2a3b2a); /* Камуфляжный градиент */
+            color: #c0c0c0; 
+            border: 2px solid #4b704b; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: transform 0.1s; 
+        }
+        #menu button:active, #tasks button:active, #shop button:active { 
+            transform: scale(0.95); 
         }
         #tasks div, #shop div { 
-            max-height: 80%; overflow-y: auto; width: 80%; text-align: left; 
+            max-height: 70%; 
+            overflow-y: auto; 
+            width: 80%; 
+            text-align: left; 
+            font-size: 18px; 
+            padding: 10px; 
+            background: #2a3b2a; 
+            border: 2px solid #4b704b; 
+            border-radius: 5px; 
         }
-        #score { position: absolute; top: 10px; left: 10px; color: white; font-size: 18px; }
-        #health { position: absolute; top: 30px; left: 10px; color: white; font-size: 18px; }
-        #crosshair { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 20px; }
+        #score { 
+            position: absolute; 
+            top: 10px; 
+            left: 10px; 
+            color: #c0c0c0; 
+            font-size: 20px; 
+            font-family: 'Impact', Arial, sans-serif; 
+        }
+        #health { 
+            position: absolute; 
+            top: 40px; 
+            left: 10px; 
+            color: #c0c0c0; 
+            font-size: 20px; 
+            font-family: 'Impact', Arial, sans-serif; 
+        }
+        #crosshair { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            color: #c0c0c0; 
+            font-size: 24px; 
+        }
         #shootBtn { 
-            position: absolute; bottom: 20px; right: 20px; width: 60px; height: 60px; 
-            background: #ff0000; border-radius: 50%; border: none; color: white; font-size: 18px; 
+            position: absolute; 
+            bottom: 20px; 
+            right: 20px; 
+            width: 80px; 
+            height: 80px; 
+            background: linear-gradient(45deg, #ff3333, #cc0000); 
+            border-radius: 50%; 
+            border: 2px solid #4b704b; 
+            color: #c0c0c0; 
+            font-size: 20px; 
+            font-family: 'Impact', Arial, sans-serif; 
+            text-transform: uppercase; 
         }
         #gameOver { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0, 0, 0, 0.9); color: white; font-family: Arial; 
-            display: none; flex-direction: column; align-items: center; justify-content: center; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(34, 51, 34, 0.95); 
+            color: #c0c0c0; 
+            font-family: 'Impact', Arial, sans-serif; 
+            display: none; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        /* Горизонтальная ориентация */
+        @media (orientation: portrait) {
+            body::before {
+                content: "Пожалуйста, поверните устройство в горизонтальное положение";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #1a2a1a;
+                color: #c0c0c0;
+                font-family: 'Impact', Arial, sans-serif;
+                font-size: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                z-index: 1000;
+            }
+            canvas, #menu, #tasks, #shop, #score, #health, #crosshair, #shootBtn, #gameOver { display: none; }
         }
     </style>
 </head>
 <body>
     <div id="menu">
-        <h1>Шутер от первого лица</h1>
+        <h1>Операция: Шторм</h1>
         <button onclick="startGame('day')">Играть (День)</button>
         <button onclick="startGame('night')">Играть (Ночь)</button>
         <button onclick="showTasks()">Задания</button>
@@ -79,22 +178,27 @@
     <div id="crosshair" style="display: none;">+</div>
     <button id="shootBtn" style="display: none;">Стрелять</button>
     <div id="gameOver" style="display: none;">
-        <h1>Игра окончена</h1>
+        <h1>Миссия провалена</h1>
         <button onclick="showMenu()">Вернуться в меню</button>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.10.0/dist/nipplejs.min.js"></script>
     <script>
+        // Зафиксировать горизонтальную ориентацию
+        if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {});
+        }
+
         // Сцена, камера, рендер
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
         // Пол
         const groundGeometry = new THREE.PlaneGeometry(100, 100);
-        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x2a3b2a }); // Военный зеленый
         const ground = new THREE.Mesh(groundGeometry, groundMaterial);
         ground.rotation.x = -Math.PI / 2;
         scene.add(ground);
@@ -102,6 +206,7 @@
         // Освещение
         let ambientLight, spotLight;
         function setTimeOfDay(time) {
+            scene.remove(ambientLight, spotLight);
             if (time === 'day') {
                 ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
                 scene.add(ambientLight);
@@ -118,39 +223,35 @@
 
         // Оружие (два прямоугольника)
         const weaponGeometry = new THREE.BoxGeometry(0.2, 0.1, 0.5);
-        const weaponMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const weaponMaterial = new THREE.MeshBasicMaterial({ color: 0x4b704b }); // Зеленый милитари
         const weaponLeft = new THREE.Mesh(weaponGeometry, weaponMaterial);
         const weaponRight = new THREE.Mesh(weaponGeometry, weaponMaterial);
-        weaponLeft.position.set(-0.3, -0.3, -0.5);
-        weaponRight.position.set(0.3, -0.3, -0.5);
+        weaponLeft.position.set(-0.4, -0.3, -0.6);
+        weaponRight.position.set(0.4, -0.3, -0.6);
         camera.add(weaponLeft, weaponRight);
         scene.add(camera);
 
         // Игрок
         camera.position.y = 1.6;
-        let moveSpeed = 0.1;
+        let moveSpeed = 0.15; // Увеличена для плавности
         let yaw = 0;
         let health = 100;
         let regenRate = 0;
         let damageMultiplier = 1;
         let score = 0;
 
-        // Джойстики
-        let moveJoystick, lookJoystick;
-        function setupJoysticks() {
+        // Оптимизированное управление
+        let moveJoystick, touchZone;
+        function setupControls() {
+            // Джойстик для движения
             moveJoystick = nipplejs.create({
                 zone: document.body,
-                position: { left: '20%', bottom: '20%' },
+                position: { left: '15%', bottom: '15%' },
                 mode: 'static',
-                size: 100,
-                color: 'white'
-            });
-            lookJoystick = nipplejs.create({
-                zone: document.body,
-                position: { right: '20%', bottom: '20%' },
-                mode: 'static',
-                size: 100,
-                color: 'white'
+                size: 120,
+                color: 'white',
+                threshold: 0.1,
+                fadeTime: 0
             });
             moveJoystick.on('move', (evt, data) => {
                 const direction = new THREE.Vector3();
@@ -158,13 +259,33 @@
                 direction.y = 0;
                 direction.normalize();
                 const angle = data.angle.radian;
-                const force = data.force;
+                const force = Math.min(data.force, 1); // Ограничение силы
                 const move = direction.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), angle).multiplyScalar(force * moveSpeed);
                 camera.position.add(move);
             });
-            lookJoystick.on('move', (evt, data) => {
-                yaw -= data.angle.radian * 0.05;
-                camera.rotation.set(0, yaw, 0);
+
+            // Зона свайпа для поворота
+            touchZone = document.createElement('div');
+            touchZone.style.position = 'absolute';
+            touchZone.style.right = '0';
+            touchZone.style.top = '0';
+            touchZone.style.width = '40%';
+            touchZone.style.height = '100%';
+            document.body.appendChild(touchZone);
+            let touchStartX = null;
+            touchZone.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+            });
+            touchZone.addEventListener('touchmove', (e) => {
+                if (touchStartX !== null) {
+                    const deltaX = e.touches[0].clientX - touchStartX;
+                    yaw -= deltaX * 0.005; // Чувствительность поворота
+                    camera.rotation.set(0, yaw, 0);
+                    touchStartX = e.touches[0].clientX;
+                }
+            });
+            touchZone.addEventListener('touchend', () => {
+                touchStartX = null;
             });
         }
 
@@ -172,7 +293,7 @@
         const enemies = [];
         function spawnEnemy() {
             const geometry = new THREE.BoxGeometry(1, 1, 1);
-            const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const material = new THREE.MeshBasicMaterial({ color: 0x8b0000 }); // Темно-красный для врагов
             const enemy = new THREE.Mesh(geometry, material);
             const angle = Math.random() * Math.PI * 2;
             const distance = 20;
@@ -211,12 +332,15 @@
             document.getElementById('health').style.display = 'none';
             document.getElementById('crosshair').style.display = 'none';
             document.getElementById('shootBtn').style.display = 'none';
+            gameOverElement.style.display = 'none';
             if (moveJoystick) moveJoystick.destroy();
-            if (lookJoystick) lookJoystick.destroy();
+            if (touchZone) touchZone.remove();
             enemies.forEach(enemy => scene.remove(enemy));
             enemies.length = 0;
             bullets.forEach(bullet => scene.remove(bullet));
             bullets.length = 0;
+            if (ambientLight) scene.remove(ambientLight);
+            if (spotLight) scene.remove(spotLight);
         }
 
         function showTasks() {
@@ -241,7 +365,7 @@
             scoreElement.textContent = `Очки: ${score}`;
             healthElement.textContent = `Здоровье: ${health}`;
             setTimeOfDay(time);
-            setupJoysticks();
+            setupControls();
             setInterval(spawnEnemy, 2000);
             animate();
         }
