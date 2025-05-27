@@ -13,7 +13,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Предупреждение об ориентации */
 #orientation-warning {
     display: none;
     position: fixed;
@@ -53,7 +52,6 @@ canvas {
     height: 100%;
 }
 
-/* Мобильные элементы управления */
 #mobile-controls {
     position: fixed;
     bottom: 0;
@@ -123,7 +121,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Игровой интерфейс */
 #game-ui {
     position: fixed;
     top: 20px;
@@ -137,7 +134,6 @@ button:disabled {
     margin-bottom: 10px;
 }
 
-/* Экраны меню */
 .screen {
     position: fixed;
     top: 0;
@@ -171,7 +167,6 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-/* Задания */
 .missions-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -201,7 +196,6 @@ button:disabled {
     color: #ffeb3b;
 }
 
-/* Магазин */
 .shop-items {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -225,7 +219,6 @@ button:disabled {
     margin-bottom: 10px;
 }
 
-/* Кнопки действий */
 #shoot-btn {
     background: #ff4444;
     animation: pulse 2s infinite;
@@ -241,14 +234,12 @@ button:disabled {
     margin-top: 10px;
 }
 
-/* Анимации */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
 
-/* Скроллбар */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -262,62 +253,3 @@ button:disabled {
     background: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
 }
-
-/* Социальные задания */
-.social-mission {
-    background: rgba(0, 132, 255, 0.1);
-    border: 1px solid rgba(0, 132, 255, 0.3);
-}
-
-.social-mission h3 {
-    color: #0084ff;
-}
-
-.social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    background: #0088cc;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    margin: 10px 0;
-    font-size: 18px;
-    transition: all 0.3s;
-}
-
-.social-link:hover {
-    background: #0099dd;
-    transform: scale(1.05);
-}
-
-.social-link i {
-    font-size: 24px;
-}
-
-.share-btn {
-    background: #0088cc;
-    color: white;
-    width: 100%;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.share-btn i {
-    font-size: 20px;
-}
-
-.social-claim {
-    background: #4CAF50;
-    color: white;
-    width: 100%;
-}
-
-.social-claim:disabled {
-    background: #45a049;
-    opacity: 0.7;
-} 
